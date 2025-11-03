@@ -1,22 +1,7 @@
 from configparser import ConfigParser
-import os
-from pathlib import Path
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
-CURRENT_FILE = Path(__file__).resolve()
-ROOT_DIR = CURRENT_FILE.parent
-
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-
-
-def config(filename: str = f"{ROOT_DIR}/database.ini", section: str = "postgresql") -> dict:
+def config(filename="database.ini", section="postgresql"):
     # create a parser
     parser = ConfigParser()
     # read config file
@@ -27,5 +12,6 @@ def config(filename: str = f"{ROOT_DIR}/database.ini", section: str = "postgresq
         for param in params:
             db[param[0]] = param[1]
     else:
-        raise Exception("Section {0} is not found in the {1} file.".format(section, filename))
+        raise Exception(
+            f'Section {section} is not found in the {filename} file.')
     return db
